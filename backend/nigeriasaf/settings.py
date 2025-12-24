@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    
     'base.apps.BaseConfig',
 ]
 
@@ -51,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'nigeriasafe.urls'
+ROOT_URLCONF = 'nigeriasaf.urls'
 
 TEMPLATES = [
     {
@@ -69,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'nigeriasafe.wsgi.application'
+WSGI_APPLICATION = 'nigeriasaf.wsgi.application'
 
 
 # Database
