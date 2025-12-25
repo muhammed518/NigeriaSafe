@@ -1,0 +1,105 @@
+{% extends "base/base.html" %} {% load static %} {% block title %}Home—
+NigeriaSafe{% endblock %} {% block content %}
+
+<section class="header">
+  <div class="emergency-container">
+    <div style="display: none">{% csrf_token %}</div>
+    <a href="tel:112" class="sos-button">SOS</a>
+    <div class="responders-selection">
+      <a href="tel:112" class="responder-btn" style="text-decoration: none">
+        <i class="fas fa-ambulance"></i>
+        <span>Ambulance</span>
+      </a>
+      <a href="tel:199" class="responder-btn" style="text-decoration: none">
+        <i class="fas fa-car-side"></i>
+        <span>Police</span>
+      </a>
+      <a href="tel:112" class="responder-btn" style="text-decoration: none">
+        <i class="fas fa-fire-extinguisher"></i>
+        <span>Fire</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<h2 class="main-goal">
+  We exist to save lives &<br />Stop preventable deaths.
+</h2>
+<div class="content-container">
+  <div class="text-content">
+    <h3 class="sub-heading">
+      End-to-End Emergency Medical Care with a Single Request
+    </h3>
+    <p class="description">
+      We provide comprehensive emergency care services, starting with
+      phone-based first aid while an ambulance with paramedics is en route. At
+      the scene, we offer on-site treatment, followed by transportation to the
+      nearest emergency-ready hospital.
+    </p>
+  </div>
+
+  <div class="phone-mockup">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="phone-status-bar"></div>
+        <div class="phone-content">
+          <p class="phone-service">Emergency Services</p>
+          <button class="phone-sos-btn">SOS</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="content-container">
+  <div class="tablet-mockup">
+    <div class="tablet-frame">
+      <div class="tablet-screen">
+        <div class="tablet-header">
+          <span class="tablet-title">Live Emergency Tracking</span>
+        </div>
+        <div class="tablet-map">
+          <div class="map-marker"></div>
+          <div class="map-pulse"></div>
+          <p class="map-text">Ambulance en route</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-content">
+    <h3 class="sub-heading">Real Time Tracking</h3>
+    <p class="description">
+      Medical emergencies are highly time-sensitive. We prioritize responses
+      based on real-time conditions and utilize precise location tracking to
+      deliver timely and effective care.
+    </p>
+  </div>
+</div>
+
+<!-- 24/7 Availability Section -->
+<div class="content-container availability-section">
+  <div class="text-content">
+    <h3 class="sub-heading">24/7 Availability</h3>
+    <p class="description">
+      Our Emergency Medical Services are available 24 hours a day, 7 days a
+      week, all year round. You can call our toll-free line at any time and get
+      an immediate response from qualified medical professionals.
+    </p>
+  </div>
+
+  <div class="phone-mockup">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="phone-content">
+          <p>24/7</p>
+          <p class="phone-service">Always On — Support</p>
+          <p><i class="fas fa-phone"></i> Toll-free: 0800 123 4567</p>
+          <button class="phone-sos-btn">Call Now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

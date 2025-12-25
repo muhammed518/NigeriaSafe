@@ -1,0 +1,166 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}Volunteer — NigeriaSafe{% endblock %}
+{% block content %}
+    <div class="volunteer-page">
+      <header class="volunteer-header">
+        <h1>Volunteer During Emergencies</h1>
+        <p>
+          Sign up to help when emergencies happen. We'll contact qualified
+          volunteers when a request matches your skills and availability.
+        </p>
+      </header>
+
+      {% if is_volunteer or user.is_staff %}
+      <div style="text-align: center; margin-bottom: 30px;">
+          <div style="background-color: #f0f9ff; border: 1px solid #bae3ff; padding: 20px; border-radius: 10px; display: inline-block; max-width: 600px;">
+              <h3 style="margin-bottom: 10px; color: #0056b3;">{% if is_volunteer %}You are a registered volunteer!{% else %}Staff Access{% endif %}</h3>
+              <p style="margin-bottom: 15px; color: #555;">Thank you for your service. You can view active tasks below.</p>
+              <a href="{% url 'base:volunteer_tasks' %}" class="submit-btn" style="text-decoration: none; display: inline-block;">
+                  View Available Tasks
+              </a>
+          </div>
+      </div>
+      {% endif %}
+
+      <section class="volunteer-container">
+        <form class="volunteer-form" method="post">
+          {% csrf_token %}
+          <div class="form-row">
+            <label class="form-label" for="location"
+              >Primary Location (city/area)</label
+            >
+            <input
+              class="form-input"
+              id="location"
+              name="location"
+              type="text"
+              placeholder="e.g. Lagos Island"
+              required
+            />
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="Medical Training"
+              >Medical Training (if any)</label
+            >
+            <input
+              class="form-input"
+              id="Medical Training"
+              name="Medical Training"
+              type="text"
+              placeholder="EMT, Nurse, MD, First Aid/CPR certified"
+            />
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Skills / Roles</label>
+            <div class="checkbox-group">
+              <label
+                ><input type="checkbox" name="skills" value="medical" /> Medical
+                responder</label
+              >
+              <label
+                ><input type="checkbox" name="skills" value="driver" /> Driver /
+                Transport</label
+              >
+              <label
+                ><input type="checkbox" name="skills" value="logistics" />
+                Logistics / Coordinator</label
+              >
+              <label
+                ><input type="checkbox" name="skills" value="communications" />
+                Communications</label
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="availability">Availability</label>
+            <select id="availability" name="availability" class="form-input">
+              <option value="immediate">Immediate (within 30 mins)</option>
+              <option value="hour">Within 1 hour</option>
+              <option value="scheduled">Scheduled / On-call</option>
+              <option value="weekends">Weekends</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Can you provide transport?</label>
+            <div class="radio-group">
+              <label
+                ><input type="radio" name="transport" value="yes" /> Yes</label
+              >
+              <label
+                ><input type="radio" name="transport" value="no" checked />
+                No</label
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="vehicle"
+              >Vehicle details (if any)</label
+            >
+            <input
+              class="form-input"
+              id="vehicle"
+              name="vehicle"
+              type="text"
+              placeholder="Make, model, capacity"
+            />
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="Specialized Equipment"
+              >Specialized Equipment</label
+            >
+            <input
+              class="form-input"
+              id="Medical Training"
+              name="Specialized Equipment"
+              type="text"
+              placeholder="Chainsaw, Generator, Power Tools, First Aid Kit..."
+            />
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="notes"
+              >Additional notes / qualifications</label
+            >
+            <textarea
+              id="notes"
+              name="notes"
+              class="form-textarea"
+              rows="4"
+              placeholder="Certifications, languages..."
+            ></textarea>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">
+              <input type="checkbox" name="consent" value="yes" required /> I have read and fully understood this Volunteer Consent and Agreement.
+          </div>
+
+          <div class="form-row form-actions">
+            <button class="submit-btn" type="submit">Join as Volunteer</button>
+          </div>
+        </form>
+
+        <aside class="volunteer-info">
+          <h3>What to expect</h3>
+          <ul>
+            <li>
+              We contact you only when there's a close match to your skills and
+              location.
+            </li>
+            <li>You choose whether to accept a request.</li>
+            <li>
+              All volunteers should follow safety guidance and local
+              regulations.
+            </li>
+          </ul>
+        </aside>
+      </section>
+    </div>
+{% endblock %}

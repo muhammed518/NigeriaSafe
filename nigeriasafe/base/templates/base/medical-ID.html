@@ -1,0 +1,156 @@
+{% extends "base/base.html" %} {% load static %} {% block title %}Sign In—
+NigeriaSafe{% endblock %} {% block content %}
+
+<main class="signin-container">
+  <div class="signin-card" style="max-width: 800px">
+    <h1 class="signin-title">{{ request.user.get_full_name }}</h1>
+    <p class="signin-subtitle">
+      This information will be securely shared with responders in an emergency.
+      Please keep it up to date.
+    </p>
+
+    <form class="signin-form" method="post">
+      {% csrf_token %} {% if messages %}
+      <div class="messages-list">
+        {% for message in messages %}
+        <div class="message-item {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      <!-- Personal Information -->
+      <div class="form-group">
+        <label for="dob">Date of Birth</label>
+        <div class="input-wrapper">
+          <i class="fas fa-calendar-alt"></i>
+          {{ form.date_of_birth }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="blood-type">Blood Type</label>
+        <div class="input-wrapper">
+          <i class="fas fa-tint"></i>
+          {{ form.blood_type }}
+        </div>
+      </div>
+      <!-- Weight -->
+
+      <div class="form-group">
+        <label for="Weight">Weight</label>
+        <div class="input-wrapper">
+          <i class="fas fa-weight"></i>
+          {{ form.weight }}
+        </div>
+      </div>
+
+      <!-- Height -->
+      <div class="form-group">
+        <label for="Height">Height</label>
+        <div class="input-wrapper">
+          <i class="fas fa-ruler-vertical"></i>
+          {{ form.height }}
+        </div>
+      </div>
+
+      <!-- Medical Conditions -->
+      <div class="form-group">
+        <label for="conditions">Pre-existing Medical Conditions</label>
+        <div class="input-wrapper">
+          <i class="fas fa-notes-medical"></i>
+          {{ form.medical_conditions }}
+        </div>
+      </div>
+
+      <!-- Allergies -->
+      <div class="form-group">
+        <label for="Allergies">Allergies</label>
+        <div class="input-wrapper">
+          <i class="fas fa-allergies"></i>
+          {{ form.allergies }}
+        </div>
+      </div>
+
+      <!-- Medications -->
+      <div class="form-group">
+        <label for="Medications">Medications</label>
+        <div class="input-wrapper">
+          <i class="fas fa-pills"></i>
+          {{ form.medications }}
+        </div>
+      </div>
+
+      <!--address-->
+      <div class="form-group">
+        <label for="Address">Address</label>
+        <div class="input-wrapper">
+          <i class="fas fa-home"></i>
+          {{ form.address }}
+        </div>
+      </div>
+
+      <!--phone number-->
+      <div class="form-group">
+        <label for="Phone Number">Phone Number</label>
+        <div class="input-wrapper">
+          <i class="fas fa-phone"></i>
+          {{ form.phone_number }}
+        </div>
+      </div>
+
+      <!-- Emergency Contact -->
+      <h2
+        class="signin-subtitle"
+        style="margin-top: 2rem; text-align: left; font-size: 1.2rem"
+      >
+        Emergency Contact
+      </h2>
+      <div class="form-group">
+        <label for="emergency-name">Contact Full Name</label>
+        <div class="input-wrapper">
+          <i class="fas fa-user-friends"></i>
+          {{ form.emergency_contact_name }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="emergency-phone">Contact Phone Number</label>
+        <div class="input-wrapper">
+          <i class="fas fa-phone"></i>
+          {{ form.emergency_contact_phone }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="emergency-relationship">Relationship</label>
+        <div class="input-wrapper">
+          <i class="fas fa-user-tag"></i>
+          {{ form.emergency_contact_relationship }}
+        </div>
+      </div>
+
+      <button type="submit" class="signin-btn-submit">
+        save & Update Information
+      </button>
+
+      <a
+        href="{% url 'base:signout' %}"
+        class="signin-btn-submit"
+        style="
+          background: #555;
+          text-align: center;
+          text-decoration: none;
+          box-shadow: none;
+          margin-top: 1rem;
+          display: block;
+        "
+      >
+        Sign Out
+      </a>
+
+      <p class="signin-footer">
+        You can update this information at any time from your account.
+      </p>
+    </form>
+  </div>
+</main>
+{% endblock %}

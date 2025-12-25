@@ -1,0 +1,66 @@
+{% extends "base/base.html" %} {% load static %} {% block title %}Resources —
+NigeriaSafe{% endblock %} {% block content %}
+<main class="about-page-container">
+  <div class="about-header">
+    <h1>Emergency Preparedness</h1>
+    <p class="about-subtitle">
+      Guides to help you stay safe during various emergency situations.
+    </p>
+  </div>
+
+  <div class="values-grid">
+    <a
+      href="{% url 'base:fire_safety' %}"
+      class="value-card"
+      style="text-decoration: none"
+    >
+      <i class="fas fa-fire"></i>
+      <h3>Fire Safety</h3>
+      <p>Learn how to prevent fires and what to do if one occurs.</p>
+    </a>
+    <a
+      href="{% url 'base:flooding_safety' %}"
+      class="value-card"
+      style="text-decoration: none"
+    >
+      <i class="fas fa-water"></i>
+      <h3>Flooding Safety</h3>
+      <p>Essential tips for preparing for and dealing with floods.</p>
+    </a>
+    <a
+      href="{% url 'base:extreme_heat' %}"
+      class="value-card"
+      style="text-decoration: none"
+    >
+      <i class="fas fa-sun"></i>
+      <h3>Extreme Heat</h3>
+      <p>Learn how to stay cool and safe during heatwaves.</p>
+    </a>
+    <a
+      href="{% url 'base:water_safety' %}"
+      class="value-card"
+      style="text-decoration: none"
+    >
+      <i class="fas fa-life-ring"></i>
+      <h3>Water Safety</h3>
+      <p>
+        Tips for staying safe in and around water, including swimming and
+        boating.
+      </p>
+    </a>
+    <a
+      href="{% url 'base:landslides_safety' %}"
+      class="value-card"
+      style="text-decoration: none"
+    >
+      <i class="fas fa-house-damage"></i>
+      <h3>Landslide Safety</h3>
+      <p>
+        Learn the warning signs and how to react before, during, and after a
+        landslide.
+      </p>
+    </a>
+  </div>
+</main>
+
+{% endblock %}

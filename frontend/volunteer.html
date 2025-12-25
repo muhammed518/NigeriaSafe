@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Volunteer — NigeriaSafe</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="index.html" class="logo-link"
+        ><img src="images/ambulance-icon.png" alt="logo" class="logo" />
+        <span class="logo-text">NigeriaSafe </span></a
+      >
+      <div class="nav-links">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="resources.html">Resources</a></li>
+          <li><a href="volunteer.html">Volunteer</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <a href="signin.html" class="sign-in-btn"
+        ><i class="fas fa-user"></i> Sign In</a
+      >
+      <a href="firstAid.html" class="firstAid-btn"
+        ><i class="fas fa-first-aid"></i> First Aid</a
+      >
+    </nav>
+
+    <main class="volunteer-page">
+      <header class="volunteer-header">
+        <h1>Volunteer During Emergencies</h1>
+        <p>
+          Sign up to help when emergencies happen. We'll contact qualified
+          volunteers when a request matches your skills and availability.
+        </p>
+      </header>
+
+      <section class="volunteer-container">
+        <form class="volunteer-form" action="#" method="post">
+          <div class="form-row">
+            <label class="form-label" for="location"
+              >Primary Location (city/area)</label
+            >
+            <input
+              class="form-input"
+              id="location"
+              name="location"
+              type="text"
+              placeholder="e.g. Lagos Island"
+              required
+            />
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="Medical Training"
+              >Medical Training (if any)</label
+            >
+            <input
+              class="form-input"
+              id="Medical Training"
+              name="phone"
+              type="text"
+              placeholder="EMT, Nurse, MD, First Aid/CPR certified"
+            />
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Skills / Roles</label>
+            <div class="checkbox-group">
+              <label
+                ><input type="checkbox" name="skills" value="medical" /> Medical
+                responder</label
+              >
+              <label
+                ><input type="checkbox" name="skills" value="driver" /> Driver /
+                Transport</label
+              >
+              <label
+                ><input type="checkbox" name="skills" value="logistics" />
+                Logistics / Coordinator</label
+              >
+              <label
+                ><input type="checkbox" name="skills" value="communications" />
+                Communications</label
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="availability">Availability</label>
+            <select id="availability" name="availability" class="form-input">
+              <option value="immediate">Immediate (within 30 mins)</option>
+              <option value="hour">Within 1 hour</option>
+              <option value="scheduled">Scheduled / On-call</option>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">Can you provide transport?</label>
+            <div class="radio-group">
+              <label
+                ><input type="radio" name="transport" value="yes" /> Yes</label
+              >
+              <label
+                ><input type="radio" name="transport" value="no" checked />
+                No</label
+              >
+            </div>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="vehicle"
+              >Vehicle details (if any)</label
+            >
+            <input
+              class="form-input"
+              id="vehicle"
+              name="vehicle"
+              type="text"
+              placeholder="Make, model, capacity"
+            />
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="Specialized Equipment"
+              >Specialized Equipment</label
+            >
+            <input
+              class="form-input"
+              id="Medical Training"
+              name="Specialized Equipment"
+              type="text"
+              placeholder="Chainsaw, Generator, Power Tools, First Aid Kit..."
+            />
+          </div>
+
+          <div class="form-row">
+            <label class="form-label" for="notes"
+              >Additional notes / qualifications</label
+            >
+            <textarea
+              id="notes"
+              name="notes"
+              class="form-textarea"
+              rows="4"
+              placeholder="Certifications, languages..."
+            ></textarea>
+          </div>
+
+          <div class="form-row">
+            <label class="form-label">
+              <input type="checkbox" name="consent" value="yes" required /> I have read and fully understood this Volunteer Consent and Agreement.
+          </div>
+
+          <div class="form-row form-actions">
+            <button class="submit-btn" type="submit">Join as Volunteer</button>
+          </div>
+        </form>
+
+        <aside class="volunteer-info">
+          <h3>What to expect</h3>
+          <ul>
+            <li>
+              We contact you only when there's a close match to your skills and
+              location.
+            </li>
+            <li>You choose whether to accept a request.</li>
+            <li>
+              All volunteers should follow safety guidance and local
+              regulations.
+            </li>
+          </ul>
+        </aside>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <a href="index.html" class="logo-link footer-logo"
+            ><img src="images/ambulance-icon.png" alt="logo" class="logo" />
+            <span class="logo-text">NigeriaSafe</span></a
+          >
+          <p class="footer-desc">
+            Providing timely emergency response and care across Nigeria.
+          </p>
+        </div>
+
+        <div class="footer-center">
+          <ul class="footer-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-right">
+          <p class="footer-contact">
+            <i class="fas fa-phone"></i>
+            <a href="tel:08001234567">Toll-free: 0800 123 4567</a>
+          </p>
+          <p class="footer-hours">24/7 Emergency Support</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; <span id="year">2025</span> NigeriaSafe — All rights reserved.
+      </div>
+    </footer>
+
+    <script src="nav-hide.js"></script>
+  </body>
+</html>

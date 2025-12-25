@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}NigeriaSafe{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    {% block head_extra %} {% endblock %}
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="{% url 'base:home' %}" class="logo-link">
+        <img
+          src="{% static 'images/ambulance-icon.png' %}"
+          alt="logo"
+          class="logo"
+        />
+        <span class="logo-text">NigeriaSafe</span>
+      </a>
+
+      <div class="nav-links">
+        <ul>
+          <li><a href="{% url 'base:home' %}">Home</a></li>
+          <li><a href="{% url 'base:about' %}">About</a></li>
+          <li><a href="{% url 'base:resources' %}">Resources</a></li>
+          <li><a href="{% url 'base:volunteer' %}">Volunteer</a></li>
+          <li><a href="{% url 'base:contact' %}">Contact</a></li>
+        </ul>
+      </div>
+
+      <div class="nav-actions">
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'base:medical_id' %}" class="sign-in-btn"
+          ><i class="fas fa-user-circle"></i> Medical ID</a
+        >
+        {% else %}
+        <a href="{% url 'base:signin' %}" class="sign-in-btn"
+          ><i class="fas fa-user"></i> Sign In</a
+        >
+        {% endif %}
+        <a href="{% url 'base:first_aid' %}" class="firstAid-btn"
+          ><i class="fas fa-first-aid"></i> First Aid</a
+        >
+      </div>
+    </nav>
+
+    <main>{% block content %} {% endblock %}</main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <a href="{% url 'base:home' %}" class="logo-link footer-logo">
+            <img
+              src="{% static 'images/ambulance-icon.png' %}"
+              alt="logo"
+              class="logo"
+            />
+            <span class="logo-text">NigeriaSafe</span>
+          </a>
+          <p class="footer-desc">
+            Providing timely emergency response and care across Nigeria.
+          </p>
+        </div>
+
+        <div class="footer-center">
+          <ul class="footer-links">
+            <li><a href="{% url 'base:home' %}">Home</a></li>
+            <li><a href="{% url 'base:about' %}">About</a></li>
+            <li><a href="{% url 'base:resources' %}">Resources</a></li>
+            <li><a href="{% url 'base:contact' %}">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-right">
+          <p class="footer-contact">
+            <i class="fas fa-phone"></i>
+            <a href="tel:08001234567">Toll-free: 0800 123 4567</a>
+          </p>
+          <p class="footer-hours">24/7 Emergency Support</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; <span id="year">2025</span> NigeriaSafe — All rights reserved.
+      </div>
+    </footer>
+
+    <script src="{% static 'js/sos.js' %}"></script>
+    <script src="{% static 'js/nav-hide.js' %}"></script>
+
+    <!-- SOS confirmation modal -->
+    <div id="sos-modal" class="sos-modal" aria-hidden="true">
+      <div class="sos-modal-backdrop"></div>
+      <div
+        class="sos-modal-content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sos-modal-title"
+      >
+        <h3 id="sos-modal-title">Confirm SOS</h3>
+        <p>We're about to send your current location to responders.</p>
+
+        <label class="sos-field">
+          <span>Message (optional)</span>
+          <textarea
+            id="sos-message"
+            rows="3"
+            placeholder="Brief details for responders"
+          ></textarea>
+        </label>
+
+        <div class="sos-modal-actions">
+          <button id="sos-cancel" class="btn">Cancel</button>
+          <button id="sos-send" class="btn btn-primary">Send SOS</button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
