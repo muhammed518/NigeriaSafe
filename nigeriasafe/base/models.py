@@ -35,20 +35,20 @@ class Patient(models.Model):
         ('O+', 'O+'),
         ('O-', 'O-'),
     ]
-    blood_type = models.CharField(max_length=3, choices=BLOOD_TYPE_CHOICES, null=True, blank=True)
+    bloodType = models.CharField(max_length=3, choices=BLOOD_TYPE_CHOICES, null=True, blank=True)
     weight = models.FloatField()
     height = models.FloatField()
-    medical_conditions = models.TextField(null=True, blank=True)
+    medicalConditions = models.TextField(null=True, blank=True)
     allergies = models.TextField(null=True, blank=True)
     medications = models.TextField(null=True, blank=True)
     address = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=15)
-    emergency_contact_name = models.CharField(max_length=60)
-    emergency_contact_phone = models.CharField(max_length=15)
-    emergency_contact_relationship = models.CharField(max_length=30)
-    updated_at = models.DateTimeField(auto_now=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    medical_record_number = models.CharField(max_length=20, unique=True, default=generate_medical_record_number, editable=False)
+    phoneNumber = models.CharField(max_length=15)
+    emergencyContactName = models.CharField(max_length=60)
+    emergencyContactPhone = models.CharField(max_length=15)
+    emergencyContactRelationship = models.CharField(max_length=30)
+    updatedAt = models.DateTimeField(auto_now=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    medicalRecordNumber = models.CharField(max_length=20, unique=True, default=generate_medical_record_number, editable=False)
 
     def __str__(self):
         name = self.user.get_full_name() if self.user else "Unknown"
@@ -77,7 +77,7 @@ class SOSAlert(models.Model):
     message = models.TextField(null=True, blank=True)
     phone = models.CharField(max_length=30, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_PENDING)
-    created_at = models.DateTimeField(auto_now_add=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ['-created_at']
@@ -102,20 +102,29 @@ class Task(models.Model):
     location = models.CharField(max_length=200)
     urgency = models.CharField(max_length=20, choices=URGENCY_CHOICES, default='medium')
     description = models.TextField()
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
+    createdBy = models.ForeignKey(User, on_delete=models.CASCADE)
+    createdAt = models.DateTimeField(auto_now_add=True)
+    isActive = models.BooleanField(default=True)
 
     def __str__(self):
         return self.title
 
 class Volunteer(models.Model):
+    AVAILABLESTATUS_CHOICES = [
+        ('Immediate (within 30 mins)', 'Immediate (within 30 mins)'),
+        ('Within 1 hour', 'Within 1 hour'),
+        ('Scheduled / On-call', 'Scheduled / On-call'),
+        ('Weekends', 'Weekends'),
+    ]
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='volunteer_profile')
     skills = models.TextField(null=True, blank=True)
-    medical_training = models.BooleanField(default=False)
+    medicalTraining = models.BooleanField(default=False)
+    isAvailable = models.CharField(max_length=200, choices=AVAILABLESTATUS_CHOICES, default='Immediate (within 30 mins)')
     location = models.CharField(max_length=200, null=True, blank=True)
+    vehicleDetails = models.TextField(null=True, blank=True)
+    equipment = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    createdAt = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user.username
