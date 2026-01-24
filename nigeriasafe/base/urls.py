@@ -31,5 +31,6 @@ urlpatterns = [
     path('dashboard/task/<int:task_id>/update/', views.update_task, name='update_task'),
     path('dashboard/task/<int:task_id>/toggle/', views.toggle_task_active, name='toggle_task_active'),
     path('task/<int:task_id>/status/', views.update_volunteer_task_status, name='update_volunteer_task_status'),
+    path('send-sos-email/', views.send_sos_email, name='send_sos_email'),
 ]
  

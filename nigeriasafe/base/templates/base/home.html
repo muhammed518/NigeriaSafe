@@ -10,10 +10,10 @@ NigeriaSafe{% endblock %} {% block content %}
         <i class="fas fa-ambulance"></i>
         <span>Ambulance</span>
       </a>
-      <a href="tel:199" class="responder-btn" style="text-decoration: none">
-        <i class="fas fa-car-side"></i>
-        <span>Police</span>
-      </a>
+      <button id="email-sos-btn" class="responder-btn">
+        <i class="fas fa-envelope"></i>
+        <span>Email SOS</span>
+      </button>
       <a href="tel:112" class="responder-btn" style="text-decoration: none">
         <i class="fas fa-fire-extinguisher"></i>
         <span>Fire</span>
@@ -101,5 +101,54 @@ NigeriaSafe{% endblock %} {% block content %}
     </div>
   </div>
 </div>
+
+<script>
+  document.getElementById('email-sos-btn').addEventListener('click', function() {
+    const btn = this;
+    const icon = btn.querySelector('i');
+    const span = btn.querySelector('span');
+    const originalIconClass = icon.className;
+    const originalText = span.innerText;
+
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+      return;
+    }
+
+    // Loading state
+    icon.className = 'fas fa-spinner fa-spin';
+    span.innerText = 'Sending...';
+    btn.disabled = true;
+
+    navigator.geolocation.getCurrentPosition(function(position) {
+      const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+      
+      fetch('/send-sos-email/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ 
+          latitude: position.coords.latitude, 
+          longitude: position.coords.longitude 
+        })
+      })
+      .then(response => response.json())
+      .then(data => alert(data.message))
+      .catch(error => alert('Failed to send SOS email.'))
+      .finally(() => {
+        icon.className = originalIconClass;
+        span.innerText = originalText;
+        btn.disabled = false;
+      });
+    }, function(error) {
+      alert('Unable to retrieve your location: ' + error.message);
+      icon.className = originalIconClass;
+      span.innerText = originalText;
+      btn.disabled = false;
+    });
+  });
+</script>
 
 {% endblock %}

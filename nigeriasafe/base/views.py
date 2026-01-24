@@ -12,6 +12,9 @@ from .models import Patient, SOSAlert, Task, Volunteer
 from .forms import PatientForm, CustomUserCreationForm
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+from django.conf import settings
+from django.views.decorators.http import require_POST
 
 
 # Create your views here.
@@ -387,6 +390,7 @@ def admin_dashboard(request):
     recent_patients = Patient.objects.all().order_by('-created_at')[:10]
     volunteers = Volunteer.objects.all().order_by('-created_at')
 
+
     context = {
         'tab': tab,
         'total_patients': total_patients,
@@ -407,3 +411,47 @@ def admin_dashboard(request):
     }
 
     return render(request, 'base/admin_dashboard.html', context)
+
+@require_POST
+def send_sos_email(request):
+    try:
+        data = json.loads(request.body)
+        latitude = data.get('latitude')
+        longitude = data.get('longitude')
+        
+        if not latitude or not longitude:
+            return JsonResponse({'message': 'Coordinates missing'}, status=400)
+
+        # Construct Google Maps link
+        maps_link = f"https://www.google.com/maps?q={latitude},{longitude}"
+        
+        subject = "SOS: Emergency Location Alert"
+        message = (
+            f"Emergency Alert!\n\n"
+            f"Coordinates received:\n"
+            f"Latitude: {latitude}\n"
+            f"Longitude: {longitude}\n\n"
+            f"View on Google Maps: {maps_link}"
+        )
+        
+        # Replace with the actual emergency contact email you want to alert
+        recipient_list = ['emergency_contact@example.com']
+        
+        if request.user.is_authenticated:
+            try:
+                if request.user.patient_profile.emergency_contact_email:
+                    recipient_list = [request.user.patient_profile.emergency_contact_email]
+            except Patient.DoesNotExist:
+                pass
+        
+        send_mail(
+            subject,
+            message,
+            settings.EMAIL_HOST_USER,
+            recipient_list,
+            fail_silently=False,
+        )
+        
+        return JsonResponse({'message': 'SOS Email sent successfully!'})
+    except Exception as e:
+        return JsonResponse({'message': f'Error sending email: {str(e)}'}, status=500)
