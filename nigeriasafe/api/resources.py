@@ -8,7 +8,7 @@ class PatientResource(ModelResource):
         queryset = Patient.objects.all()
         resource_name = 'patient'
         authorization = Authorization()
-        excludes = ['createdAt', 'updatedAt']
+        excludes = ['created_at', 'updated_at']
 
 class SOSAlertResource(ModelResource):
     patient = fields.ForeignKey(PatientResource, 'patient', null=True, blank=True, full=True)

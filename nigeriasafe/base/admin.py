@@ -8,14 +8,14 @@ from .models import SOSAlert, Task, Volunteer
 
 @admin.register(SOSAlert)
 class SOSAlertAdmin(admin.ModelAdmin):
-	list_display = ('__str__', 'patient', 'status', 'createdAt')
-	list_filter = ('status', 'createdAt')
+	list_display = ('__str__', 'patient', 'status', 'created_at')
+	list_filter = ('status', 'created_at')
 	search_fields = ('patient__full_name', 'message')
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ('title', 'urgency', 'location', 'createdBy', 'isActive', 'createdAt')
-    list_filter = ('urgency', 'isActive', 'createdAt')
+    list_display = ('title', 'urgency', 'location', 'created_by', 'isActive', 'created_at')
+    list_filter = ('urgency', 'isActive', 'created_at')
     search_fields = ('title', 'description', 'location')
 
 admin.site.register(Volunteer)

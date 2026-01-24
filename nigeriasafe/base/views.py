@@ -21,7 +21,7 @@ def volunteer(request):
     
     if request.method == 'POST':
         location = request.POST.get('location')
-        MedicalTraining = request.POST.get('Medical Training')
+        medical_training = request.POST.get('Medical Training')
         skills = request.POST.get('skills')
         notes = request.POST.get('notes')
         consent = request.POST.get('consent')
@@ -35,7 +35,7 @@ def volunteer(request):
             defaults={
                 'location': location,
                 'skills': skills,
-                'medical_training': True if MedicalTraining else False,
+                'medical_training': True if medical_training else False,
                 'notes': notes
             }
         )
@@ -237,7 +237,7 @@ def volunteer_tasks(request):
         return redirect('base:volunteer')
 
     # Fetch all active tasks, newest first
-    tasks = Task.objects.filter(is_active=True).order_by('-createdAt')
+    tasks = Task.objects.filter(is_active=True).order_by('-created_atat')
     context = {'tasks': tasks}
     return render(request, 'base/volunteer_tasks.html', context)
 
@@ -266,3 +266,200 @@ def create_task(request):
         return redirect('base:volunteer_tasks')
         
     return render(request, 'base/admin_create_task.html')
+
+
+# ===================== ADMIN DASHBOARD VIEWS =====================
+
+@staff_member_required
+def admin_dashboard(request):
+    """Main admin dashboard view"""
+    # Get statistics
+    total_sos_alerts = SOSAlert.objects.count()
+    pending_alerts = SOSAlert.objects.filter(status=SOSAlert.STATUS_PENDING).count()
+    active_tasks = Task.objects.filter(isActive=True).count()
+    
+    context = {
+        'total_sos_alerts': total_sos_alerts,
+        'pending_alerts': pending_alerts,
+        'active_tasks': active_tasks,
+    }
+    return render(request, 'base/admin_dashboard.html', context)
+
+
+@staff_member_required
+def sos_alerts_list(request):
+    """Display all SOS alerts with search functionality by MRN"""
+    search_query = request.GET.get('search', '').strip()
+    
+    if search_query:
+        # Search by Medical Record Number
+        alerts = SOSAlert.objects.filter(
+            patient__medical_record_number__icontains=search_query
+        ).select_related('patient').order_by('-created_at')
+    else:
+        # Show all alerts, newest first
+        alerts = SOSAlert.objects.select_related('patient').order_by('-created_at')
+    
+    # Get status filter if provided
+    status_filter = request.GET.get('status', '').strip()
+    if status_filter:
+        alerts = alerts.filter(status=status_filter)
+    
+    context = {
+        'alerts': alerts,
+        'search_query': search_query,
+        'status_filter': status_filter,
+        'status_choices': SOSAlert.STATUS_CHOICES,
+    }
+    return render(request, 'base/admin_sos_alerts.html', context)
+
+
+@staff_member_required
+def sos_alert_detail(request, alert_id):
+    """Display detailed view of a single SOS alert"""
+    alert = SOSAlert.objects.select_related('patient').get(id=alert_id)
+    
+    if request.method == 'POST':
+        new_status = request.POST.get('status')
+        if new_status in [choice[0] for choice in SOSAlert.STATUS_CHOICES]:
+            alert.status = new_status
+            alert.save()
+            messages.success(request, f'Alert status updated to {new_status}.')
+            return redirect('base:sos_alerts_list')
+    
+    context = {
+        'alert': alert,
+        'status_choices': SOSAlert.STATUS_CHOICES,
+    }
+    return render(request, 'base/admin_sos_alert_detail.html', context)
+
+
+@staff_member_required
+def tasks_management(request):
+    """Display all tasks with filtering options"""
+    # Get all active tasks
+    tasks = Task.objects.select_related('created_by').order_by('-created_at')
+    
+    # Filter by urgency if provided
+    urgency_filter = request.GET.get('urgency', '').strip()
+    if urgency_filter:
+        tasks = tasks.filter(urgency=urgency_filter)
+    
+    # Filter by active status
+    active_only = request.GET.get('active_only', 'true').lower() == 'true'
+    if active_only:
+        tasks = tasks.filter(isActive=True)
+    
+    context = {
+        'tasks': tasks,
+        'urgency_filter': urgency_filter,
+        'active_only': active_only,
+        'urgency_choices': Task.URGENCY_CHOICES,
+    }
+    return render(request, 'base/admin_tasks_management.html', context)
+
+
+@staff_member_required
+def create_admin_task(request):
+    """Create a new task from admin panel"""
+    volunteers = Volunteer.objects.select_related('user').all()
+    
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        location = request.POST.get('location')
+        urgency = request.POST.get('urgency')
+        description = request.POST.get('description')
+        assigned_volunteer_id = request.POST.get('assigned_volunteer')
+        
+        if not all([title, location, urgency, description]):
+            messages.error(request, 'Please fill in all required fields.')
+            return redirect('base:create_admin_task')
+        
+        task = Task.objects.create(
+            title=title,
+            location=location,
+            urgency=urgency,
+            description=description,
+            created_by=request.user,
+        )
+        
+        messages.success(request, f'Task "{title}" created successfully!')
+        return redirect('base:task_detail', task_id=task.id)
+    
+    context = {
+        'volunteers': volunteers,
+        'urgency_choices': Task.URGENCY_CHOICES,
+    }
+    return render(request, 'base/admin_create_task_form.html', context)
+
+
+@staff_member_required
+def task_detail(request, task_id):
+    """View and edit a single task"""
+    task = Task.objects.select_related('created_by').get(id=task_id)
+    volunteers = Volunteer.objects.select_related('user').all()
+    
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        
+        if action == 'update':
+            task.title = request.POST.get('title', task.title)
+            task.location = request.POST.get('location', task.location)
+            task.urgency = request.POST.get('urgency', task.urgency)
+            task.description = request.POST.get('description', task.description)
+            task.save()
+            messages.success(request, 'Task updated successfully!')
+            
+        elif action == 'delete':
+            task.delete()
+            messages.success(request, 'Task deleted successfully!')
+            return redirect('base:tasks_management')
+        
+        elif action == 'toggle_status':
+            task.isActive = not task.isActive
+            task.save()
+            status_text = 'activated' if task.isActive else 'deactivated'
+            messages.success(request, f'Task {status_text} successfully!')
+    
+    context = {
+        'task': task,
+        'volunteers': volunteers,
+        'urgency_choices': Task.URGENCY_CHOICES,
+    }
+    return render(request, 'base/admin_task_detail.html', context)
+
+
+@staff_member_required
+def edit_task(request, task_id):
+    """Edit a task (alternative view)"""
+    task = Task.objects.get(id=task_id)
+    
+    if request.method == 'POST':
+        task.title = request.POST.get('title', task.title)
+        task.location = request.POST.get('location', task.location)
+        task.urgency = request.POST.get('urgency', task.urgency)
+        task.description = request.POST.get('description', task.description)
+        task.save()
+        messages.success(request, 'Task updated successfully!')
+        return redirect('base:task_detail', task_id=task.id)
+    
+    context = {
+        'task': task,
+        'urgency_choices': Task.URGENCY_CHOICES,
+    }
+    return render(request, 'base/admin_edit_task.html', context)
+
+
+@staff_member_required
+def delete_task(request, task_id):
+    """Delete a task"""
+    task = Task.objects.get(id=task_id)
+    
+    if request.method == 'POST':
+        task_title = task.title
+        task.delete()
+        messages.success(request, f'Task "{task_title}" deleted successfully!')
+        return redirect('base:tasks_management')
+    
+    context = {'task': task}
+    return render(request, 'base/admin_delete_task.html', context)

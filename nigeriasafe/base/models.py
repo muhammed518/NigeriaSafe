@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 import uuid
 
-def generate_medicalRecordNumber():
+def generate_medical_record_number():
     """Generate a reasonably short, unique medical record number.
 
     Uses a UUID4 hex substring with an 'MRN' prefix. Collisions are extremely
@@ -35,24 +35,24 @@ class Patient(models.Model):
         ('O+', 'O+'),
         ('O-', 'O-'),
     ]
-    bloodType = models.CharField(max_length=3, choices=BLOOD_TYPE_CHOICES, null=True, blank=True)
+    blood_type = models.CharField(max_length=3, choices=BLOOD_TYPE_CHOICES, null=True, blank=True)
     weight = models.FloatField()
     height = models.FloatField()
-    medicalConditions = models.TextField(null=True, blank=True)
+    medical_conditions = models.TextField(null=True, blank=True)
     allergies = models.TextField(null=True, blank=True)
     medications = models.TextField(null=True, blank=True)
     address = models.CharField(max_length=255)
-    phoneNumber = models.CharField(max_length=15)
-    emergencyContactName = models.CharField(max_length=60)
-    emergencyContactPhone = models.CharField(max_length=15)
-    emergencyContactRelationship = models.CharField(max_length=30)
-    updatedAt = models.DateTimeField(auto_now=True)
-    createdAt = models.DateTimeField(auto_now_add=True)
-    medicalRecordNumber = models.CharField(max_length=20, unique=True, default=generate_medicalRecordNumber, editable=False)
+    phone_number = models.CharField(max_length=15)
+    emergency_contact_name = models.CharField(max_length=60)
+    emergency_contact_phone = models.CharField(max_length=15)
+    emergency_contact_relationship = models.CharField(max_length=30)
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    medical_record_number = models.CharField(max_length=20, unique=True, default=generate_medical_record_number, editable=False)
 
     def __str__(self):
         name = self.user.get_full_name() if self.user else "Unknown"
-        return f"{name} - MRN: {self.medicalRecordNumber}"
+        return f"{name} - MRN: {self.medical_record_number}"
 
 
 class SOSAlert(models.Model):
@@ -77,14 +77,14 @@ class SOSAlert(models.Model):
     message = models.TextField(null=True, blank=True)
     phone = models.CharField(max_length=30, null=True, blank=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_PENDING)
-    createdAt = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-createdAt']
+        ordering = ['-created_at']
 
     def __str__(self):
         user_display = self.patient.full_name if self.patient else 'Anonymous'
-        return f"SOS from {user_display} @ {self.createdAt:%Y-%m-%d %H:%M}"
+        return f"SOS from {user_display} @ {self.created_at:%Y-%m-%d %H:%M}"
     
 
 
@@ -102,8 +102,8 @@ class Task(models.Model):
     location = models.CharField(max_length=200)
     urgency = models.CharField(max_length=20, choices=URGENCY_CHOICES, default='medium')
     description = models.TextField()
-    createdBy = models.ForeignKey(User, on_delete=models.CASCADE)
-    createdAt = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
     isActive = models.BooleanField(default=True)
 
     def __str__(self):
@@ -118,14 +118,14 @@ class Volunteer(models.Model):
     ]
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='volunteer_profile')
     skills = models.TextField(null=True, blank=True)
-    medicalTraining = models.BooleanField(default=False)
+    medical_training = models.BooleanField(default=False)
     isAvailable = models.CharField(max_length=200, choices=AVAILABLESTATUS_CHOICES, default='Immediate (within 30 mins)')
     location = models.CharField(max_length=200, null=True, blank=True)
     vehicleDetails = models.TextField(null=True, blank=True)
     equipment = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
-    createdAt = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user.username
-    
+     

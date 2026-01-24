@@ -21,12 +21,12 @@
         <span class="alert-status {% if a.status == 'pending' %}status-critical{% endif %}">
           {{ a.get_status_display }}
         </span>
-        <small style="color: #999; font-weight: 600;">{{ a.createdAt|timesince }} ago</small>
+        <small style="color: #999; font-weight: 600;">{{ a.created_at|timesince }} ago</small>
       </div>
       
       <div class="alert-card-body">
         <h3 style="font-size: 18px; margin-bottom: 15px; color: #333;">
-          {% if a.patient %}{{ a.patient.full_name }} <span style="font-size: 0.85em; color: #666;">(MRN: {{ a.patient.medicalRecordNumber }})</span>{% else %}Anonymous User{% endif %}
+          {% if a.patient %}{{ a.patient.full_name }} <span style="font-size: 0.85em; color: #666;">(MRN: {{ a.patient.medical_record_numberer }})</span>{% else %}Anonymous User{% endif %}
         </h3>
         
         <div class="alert-location">
