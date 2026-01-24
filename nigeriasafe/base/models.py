@@ -45,6 +45,7 @@ class Patient(models.Model):
     phone_number = models.CharField(max_length=15)
     emergency_contact_name = models.CharField(max_length=60)
     emergency_contact_phone = models.CharField(max_length=15)
+    emergency_contact_email = models.EmailField(null=True, blank=True)
     emergency_contact_relationship = models.CharField(max_length=30)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
