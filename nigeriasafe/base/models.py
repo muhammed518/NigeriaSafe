@@ -5,14 +5,14 @@ from django.contrib.auth.models import User
 
 import uuid
 
-def generate_medical_record_number():
+def generate_medicalRecordNumber():
     """Generate a reasonably short, unique medical record number.
 
     Uses a UUID4 hex substring with an 'MRN' prefix. Collisions are extremely
     unlikely; if you need a strictly sequential or DB-backed MRN, replace this
     with a database sequence or lock-protected counter.
     """ 
-    return f"MRN{uuid.uuid4().hex[:12].upper()}"
+    return f"MRN{uuid.uuid4().hex[:4].upper()}"
 
 # Create your models here.
 class Patient(models.Model):
@@ -48,11 +48,11 @@ class Patient(models.Model):
     emergencyContactRelationship = models.CharField(max_length=30)
     updatedAt = models.DateTimeField(auto_now=True)
     createdAt = models.DateTimeField(auto_now_add=True)
-    medicalRecordNumber = models.CharField(max_length=20, unique=True, default=generate_medical_record_number, editable=False)
+    medicalRecordNumber = models.CharField(max_length=20, unique=True, default=generate_medicalRecordNumber, editable=False)
 
     def __str__(self):
         name = self.user.get_full_name() if self.user else "Unknown"
-        return f"{name} - MRN: {self.medical_record_number}"
+        return f"{name} - MRN: {self.medicalRecordNumber}"
 
 
 class SOSAlert(models.Model):

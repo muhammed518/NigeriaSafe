@@ -16,8 +16,8 @@ class Migration(migrations.Migration):
     operations = [
         migrations.AddField(
             model_name='patient',
-            name='medical_record_number',
-            field=models.CharField(default=base.models.generate_medical_record_number, editable=False, max_length=20, unique=True),
+            name='medicalRecordNumber',
+            field=models.CharField(default=base.models.generate_medicalRecordNumber, editable=False, max_length=20, unique=True),
         ),
         migrations.AddField(
             model_name='patient',

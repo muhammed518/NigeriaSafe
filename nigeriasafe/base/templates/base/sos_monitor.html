@@ -26,7 +26,7 @@
       
       <div class="alert-card-body">
         <h3 style="font-size: 18px; margin-bottom: 15px; color: #333;">
-          {% if a.patient %}{{ a.patient.full_name }} <span style="font-size: 0.85em; color: #666;">(MRN: {{ a.patient.medical_record_number }})</span>{% else %}Anonymous User{% endif %}
+          {% if a.patient %}{{ a.patient.full_name }} <span style="font-size: 0.85em; color: #666;">(MRN: {{ a.patient.medicalRecordNumber }})</span>{% else %}Anonymous User{% endif %}
         </h3>
         
         <div class="alert-location">
