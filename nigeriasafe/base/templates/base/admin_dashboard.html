@@ -1,0 +1,508 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Admin Dashboard - NigeriaSafe{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="admin-header">
+            <h2><i class="fas fa-cog"></i> Admin Panel</h2>
+        </div>
+        <nav class="admin-nav">
+            <a href="?tab=overview" class="admin-nav-item {% if tab == 'overview' %}active{% endif %}">
+                <i class="fas fa-chart-pie"></i> Overview
+            </a>
+            <a href="?tab=tasks" class="admin-nav-item {% if tab == 'tasks' %}active{% endif %}">
+                <i class="fas fa-tasks"></i> Task Management
+            </a>
+            <a href="?tab=sos" class="admin-nav-item {% if tab == 'sos' %}active{% endif %}">
+                <i class="fas fa-exclamation-triangle"></i> SOS Alerts
+            </a>
+            <a href="?tab=patients" class="admin-nav-item {% if tab == 'patients' %}active{% endif %}">
+                <i class="fas fa-hospital-user"></i> Patients
+            </a>
+            <a href="?tab=volunteers" class="admin-nav-item {% if tab == 'volunteers' %}active{% endif %}">
+                <i class="fas fa-users"></i> Volunteers
+            </a>
+            <a href="{% url 'base:create_task' %}" class="admin-nav-item create-task-btn">
+                <i class="fas fa-plus"></i> Create Task
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+        <!-- Header -->
+        <div class="admin-header-top">
+            <div class="admin-title">
+                <h1>{% if tab == 'overview' %}Dashboard Overview{% elif tab == 'tasks' %}Task Management{% elif tab == 'sos' %}SOS Alert Monitoring{% elif tab == 'patients' %}Patient Directory{% elif tab == 'volunteers' %}Volunteer Management{% endif %}</h1>
+            </div>
+            <div class="admin-user-info">
+                <span><i class="fas fa-user-circle"></i> {{ request.user.get_full_name|default:request.user.username }}</span>
+            </div>
+        </div>
+
+        <!-- Messages -->
+        {% if messages %}
+        <div class="messages-container">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible">
+                <button type="button" class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- OVERVIEW TAB -->
+        {% if tab == 'overview' %}
+        <div class="tab-content overview-tab">
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #3498db;">
+                        <i class="fas fa-hospital-user"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total Patients</h3>
+                        <p class="stat-number">{{ total_patients }}</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #2ecc71;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Total Volunteers</h3>
+                        <p class="stat-number">{{ total_volunteers }}</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #e74c3c;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>SOS Alerts</h3>
+                        <p class="stat-number">{{ total_sos_alerts }}</p>
+                        <p class="stat-subtitle" style="color: #e74c3c;">{{ pending_alerts }} pending</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #f39c12;">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3>Active Tasks</h3>
+                        <p class="stat-number">{{ total_tasks }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-section">
+                <div class="activity-row">
+                    <!-- Recent SOS Alerts -->
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <h3><i class="fas fa-bell"></i> Recent SOS Alerts</h3>
+                            <a href="?tab=sos" class="view-all-link">View All →</a>
+                        </div>
+                        <div class="activity-list">
+                            {% if recent_alerts %}
+                                {% for alert in recent_alerts|slice:":5" %}
+                                <div class="activity-item alert-item">
+                                    <div class="activity-status {% if alert.status == 'pending' %}pending{% elif alert.status == 'acknowledged' %}acknowledged{% else %}resolved{% endif %}">
+                                        {{ alert.get_status_display }}
+                                    </div>
+                                    <div class="activity-details">
+                                        <strong>{{ alert.patient.full_name|default:"Anonymous" }}</strong>
+                                        <small>{{ alert.created_at|date:"M d, Y H:i" }}</small>
+                                        <p>{{ alert.message|truncatewords:10 }}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="empty-message">No SOS alerts</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <!-- Recent Tasks -->
+                    <div class="activity-card">
+                        <div class="activity-header">
+                            <h3><i class="fas fa-list-check"></i> Recent Tasks</h3>
+                            <a href="?tab=tasks" class="view-all-link">View All →</a>
+                        </div>
+                        <div class="activity-list">
+                            {% if recent_tasks %}
+                                {% for task in recent_tasks|slice:":5" %}
+                                <div class="activity-item task-item">
+                                    <div class="activity-urgency urgency-{{ task.urgency }}">
+                                        {{ task.get_urgency_display }}
+                                    </div>
+                                    <div class="activity-details">
+                                        <strong>{{ task.title }}</strong>
+                                        <small>{{ task.created_at|date:"M d, Y H:i" }}</small>
+                                        <p>📍 {{ task.location }}</p>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            {% else %}
+                                <p class="empty-message">No tasks</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Patients -->
+                <div class="activity-card full-width">
+                    <div class="activity-header">
+                        <h3><i class="fas fa-users"></i> Recently Registered Patients</h3>
+                        <a href="?tab=patients" class="view-all-link">View All →</a>
+                    </div>
+                    <div class="patients-table-wrapper">
+                        {% if recent_patients %}
+                        <table class="patients-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>MRN</th>
+                                    <th>Blood Type</th>
+                                    <th>Registration Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for patient in recent_patients|slice:":5" %}
+                                <tr>
+                                    <td>{{ patient.full_name }}</td>
+                                    <td><code>{{ patient.medical_record_number }}</code></td>
+                                    <td>{{ patient.blood_type }}</td>
+                                    <td>{{ patient.created_at|date:"M d, Y" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% else %}
+                            <p class="empty-message">No patients registered yet</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- TASK MANAGEMENT TAB -->
+        {% if tab == 'tasks' %}
+        <div class="tab-content tasks-tab">
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <form method="GET" class="filter-form">
+                    <input type="hidden" name="tab" value="tasks">
+                    <select name="task_urgency" class="filter-select">
+                        <option value="">All Urgency Levels</option>
+                        <option value="low" {% if task_urgency == 'low' %}selected{% endif %}>Low</option>
+                        <option value="medium" {% if task_urgency == 'medium' %}selected{% endif %}>Medium</option>
+                        <option value="high" {% if task_urgency == 'high' %}selected{% endif %}>High</option>
+                        <option value="critical" {% if task_urgency == 'critical' %}selected{% endif %}>Critical</option>
+                    </select>
+                    <button type="submit" class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
+                    <a href="?tab=tasks" class="reset-btn">Reset</a>
+                </form>
+                <a href="{% url 'base:create_task' %}" class="create-new-btn">
+                    <i class="fas fa-plus"></i> Create New Task
+                </a>
+            </div>
+
+            <!-- Tasks Table -->
+            <div class="table-responsive">
+                {% if tasks %}
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th>Urgency</th>
+                            <th>Status</th>
+                            <th>Created By</th>
+                            <th>Created Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for task in tasks %}
+                        <tr>
+                            <td><strong>{{ task.title }}</strong></td>
+                            <td>📍 {{ task.location }}</td>
+                            <td><span class="urgency-badge urgency-{{ task.urgency }}">{{ task.get_urgency_display }}</span></td>
+                            <td><span class="status-badge {% if task.isActive %}active{% else %}inactive{% endif %}">{{ task.isActive|yesno:"Active,Inactive" }}</span></td>
+                            <td>{{ task.created_by.get_full_name|default:task.created_by.username }}</td>
+                            <td>{{ task.created_at|date:"M d, Y H:i" }}</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <form method="POST" action="{% url 'base:toggle_task_active' task.id %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="action-btn {% if task.isActive %}deactivate-btn{% else %}activate-btn{% endif %}" title="{% if task.isActive %}Deactivate{% else %}Activate{% endif %} Task">
+                                            <i class="fas fa-{% if task.isActive %}pause-circle{% else %}play-circle{% endif %}"></i>
+                                        </button>
+                                    </form>
+                                    <form method="POST" action="{% url 'base:update_task' task.id %}" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="action-btn edit-btn" title="Edit Task">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No tasks found</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- SOS ALERTS TAB -->
+        {% if tab == 'sos' %}
+        <div class="tab-content sos-tab">
+            <!-- Filter Section -->
+            <div class="filter-section">
+                <form method="GET" class="filter-form">
+                    <input type="hidden" name="tab" value="sos">
+                    <select name="sos_status" class="filter-select">
+                        <option value="">All Statuses</option>
+                        <option value="pending" {% if sos_status == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="acknowledged" {% if sos_status == 'acknowledged' %}selected{% endif %}>Acknowledged</option>
+                        <option value="resolved" {% if sos_status == 'resolved' %}selected{% endif %}>Resolved</option>
+                    </select>
+                    <button type="submit" class="filter-btn"><i class="fas fa-filter"></i> Filter</button>
+                    <a href="?tab=sos" class="reset-btn">Reset</a>
+                </form>
+            </div>
+
+            <!-- SOS Alerts Cards -->
+            <div class="sos-alerts-grid">
+                {% if sos_alerts %}
+                    {% for alert in sos_alerts %}
+                    <div class="sos-alert-card status-{{ alert.status }}">
+                        <div class="alert-header">
+                            <h3>SOS Alert #{{ alert.id }}</h3>
+                            <span class="status-badge status-{{ alert.status }}">{{ alert.get_status_display }}</span>
+                        </div>
+                        <div class="alert-body">
+                            <p><strong>Patient:</strong> {{ alert.patient.full_name|default:"Anonymous" }}</p>
+                            {% if alert.patient %}
+                            <p><strong>MRN:</strong> <code>{{ alert.patient.medical_record_number }}</code></p>
+                            <p><strong>Phone:</strong> {{ alert.patient.phone_number }}</p>
+                            {% endif %}
+                            <p><strong>Location:</strong> <code>{{ alert.latitude }}, {{ alert.longitude }}</code></p>
+                            <p><strong>Message:</strong> {{ alert.message|default:"No message provided" }}</p>
+                            <p><strong>Time:</strong> {{ alert.created_at|date:"M d, Y H:i:s" }}</p>
+                        </div>
+                        <div class="alert-actions">
+                            <form method="POST" action="{% url 'base:update_sos_status' alert.id %}" class="status-form">
+                                {% csrf_token %}
+                                <select name="status" class="status-select">
+                                    <option value="pending" {% if alert.status == 'pending' %}selected{% endif %}>Mark Pending</option>
+                                    <option value="acknowledged" {% if alert.status == 'acknowledged' %}selected{% endif %}>Mark Acknowledged</option>
+                                    <option value="resolved" {% if alert.status == 'resolved' %}selected{% endif %}>Mark Resolved</option>
+                                </select>
+                                <button type="submit" class="update-btn">Update Status</button>
+                            </form>
+                            <a href="https://maps.google.com/?q={{ alert.latitude }},{{ alert.longitude }}" target="_blank" class="map-btn">
+                                <i class="fas fa-map"></i> View Map
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No SOS alerts found</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- PATIENTS TAB -->
+        {% if tab == 'patients' %}
+        <div class="tab-content patients-tab">
+            <!-- Search Section -->
+            <div class="search-section">
+                <form method="GET" class="search-form">
+                    <input type="hidden" name="tab" value="patients">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input 
+                            type="text" 
+                            name="search_mrn" 
+                            class="search-input" 
+                            placeholder="Search by Medical Record Number (e.g., MRN1234)"
+                            value="{{ search_mrn }}"
+                        >
+                    </div>
+                    <button type="submit" class="search-btn"><i class="fas fa-search"></i> Search</button>
+                    <a href="?tab=patients" class="reset-btn">Clear</a>
+                </form>
+            </div>
+
+            <!-- Patient Details (if searched) -->
+            {% if patient_details %}
+            <div class="patient-details-card">
+                <div class="patient-header">
+                    <h2>{{ patient_details.full_name }} - Medical ID</h2>
+                    <span class="mrn-badge">{{ patient_details.medical_record_number }}</span>
+                </div>
+                
+                <div class="patient-info-grid">
+                    <div class="info-group">
+                        <h4>Basic Information</h4>
+                        <p><strong>Date of Birth:</strong> {{ patient_details.date_of_birth|date:"M d, Y" }}</p>
+                        <p><strong>Blood Type:</strong> <span class="blood-type-badge">{{ patient_details.blood_type }}</span></p>
+                        <p><strong>Height:</strong> {{ patient_details.height }} cm</p>
+                        <p><strong>Weight:</strong> {{ patient_details.weight }} kg</p>
+                    </div>
+
+                    <div class="info-group">
+                        <h4>Contact Information</h4>
+                        <p><strong>Phone:</strong> {{ patient_details.phone_number }}</p>
+                        <p><strong>Address:</strong> {{ patient_details.address }}</p>
+                    </div>
+
+                    <div class="info-group">
+                        <h4>Emergency Contact</h4>
+                        <p><strong>Name:</strong> {{ patient_details.emergency_contact_name }}</p>
+                        <p><strong>Relationship:</strong> {{ patient_details.emergency_contact_relationship }}</p>
+                        <p><strong>Phone:</strong> {{ patient_details.emergency_contact_phone }}</p>
+                    </div>
+
+                    <div class="info-group full-width">
+                        <h4>Medical Conditions</h4>
+                        <p>{{ patient_details.medical_conditions|default:"None reported" }}</p>
+                    </div>
+
+                    <div class="info-group full-width">
+                        <h4>Allergies</h4>
+                        <p>{{ patient_details.allergies|default:"None reported" }}</p>
+                    </div>
+
+                    <div class="info-group full-width">
+                        <h4>Current Medications</h4>
+                        <p>{{ patient_details.medications|default:"None reported" }}</p>
+                    </div>
+                </div>
+
+                <div class="patient-metadata">
+                    <small>Last Updated: {{ patient_details.updated_at|date:"M d, Y H:i" }}</small>
+                    <small>Registered: {{ patient_details.created_at|date:"M d, Y" }}</small>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- All Patients Table -->
+            <div class="patients-section">
+                <h3><i class="fas fa-users"></i> All Patients</h3>
+                <div class="table-responsive">
+                    {% if recent_patients %}
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>MRN</th>
+                                <th>Blood Type</th>
+                                <th>Phone</th>
+                                <th>Registration Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for patient in recent_patients %}
+                            <tr>
+                                <td><strong>{{ patient.full_name }}</strong></td>
+                                <td><code>{{ patient.medical_record_number }}</code></td>
+                                <td><span class="blood-type-badge">{{ patient.blood_type }}</span></td>
+                                <td>{{ patient.phone_number }}</td>
+                                <td>{{ patient.created_at|date:"M d, Y" }}</td>
+                                <td>
+                                    <form method="GET" style="display:inline;">
+                                        <input type="hidden" name="tab" value="patients">
+                                        <input type="hidden" name="search_mrn" value="{{ patient.medical_record_number }}">
+                                        <button type="submit" class="action-btn view-btn" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No patients found</p>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- VOLUNTEERS TAB -->
+        {% if tab == 'volunteers' %}
+        <div class="tab-content volunteers-tab">
+            <div class="volunteers-list">
+                {% if volunteers %}
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Medical Training</th>
+                                <th>Availability</th>
+                                <th>Location</th>
+                                <th>Skills</th>
+                                <th>Joined Date</th>
+                                <th>Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for volunteer in volunteers %}
+                            <tr>
+                                <td><strong>{{ volunteer.user.get_full_name|default:"N/A" }}</strong></td>
+                                <td>{{ volunteer.user.username }}</td>
+                                <td><span class="status-badge {% if volunteer.medical_training %}active{% else %}inactive{% endif %}">{{ volunteer.medical_training|yesno:"Yes,No" }}</span></td>
+                                <td>{{ volunteer.isAvailable|truncatewords:3 }}</td>
+                                <td>📍 {{ volunteer.location|default:"N/A" }}</td>
+                                <td>{{ volunteer.skills|truncatewords:5|default:"N/A" }}</td>
+                                <td>{{ volunteer.created_at|date:"M d, Y" }}</td>
+                                <td><a href="mailto:{{ volunteer.user.email }}" class="action-btn view-btn" title="Email Volunteer"><i class="fas fa-envelope"></i></a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No volunteers registered yet</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </main>
+</div>
+
+{% endblock %}
