@@ -105,6 +105,15 @@ def about(request):
 
 
 def contact(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        
+        # Logic to handle the message (e.g., send email)
+        messages.success(request, 'Thank you for contacting us! We will get back to you shortly.')
+        return redirect('base:contact')
     return render(request, 'base/contact.html')
 
 
