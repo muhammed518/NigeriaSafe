@@ -98,12 +98,21 @@ class Task(models.Model):
         ('critical', 'Critical'),
     ]
 
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('in_progress', 'In Progress'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
+
     title = models.CharField(max_length=200)
     location = models.CharField(max_length=200)
     urgency = models.CharField(max_length=20, choices=URGENCY_CHOICES, default='medium')
     description = models.TextField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     isActive = models.BooleanField(default=True)
 
     def __str__(self):

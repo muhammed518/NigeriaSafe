@@ -26,7 +26,10 @@ urlpatterns = [
     path('sos-monitor/', views.sos_monitor, name='sos_monitor'),
     path('volunteer/tasks/', views.volunteer_tasks, name='volunteer_tasks'),
     path('staff/create-task/', views.create_task, name='create_task'),
-
-    
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+    path('dashboard/sos/<int:alert_id>/update/', views.update_sos_status, name='update_sos_status'),
+    path('dashboard/task/<int:task_id>/update/', views.update_task, name='update_task'),
+    path('dashboard/task/<int:task_id>/toggle/', views.toggle_task_active, name='toggle_task_active'),
+    path('task/<int:task_id>/status/', views.update_volunteer_task_status, name='update_volunteer_task_status'),
 ]
  
