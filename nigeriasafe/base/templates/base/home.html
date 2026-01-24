@@ -6,17 +6,17 @@ NigeriaSafe{% endblock %} {% block content %}
     <div style="display: none">{% csrf_token %}</div>
     <a href="tel:112" class="sos-button">SOS</a>
     <div class="responders-selection">
-      <a href="tel:112" class="responder-btn" style="text-decoration: none">
+      <a href="{% url 'base:first_aid' %}" class="responder-btn" style="text-decoration: none">
         <i class="fas fa-ambulance"></i>
-        <span>Ambulance</span>
+        <span>First Aid</span>
       </a>
       <button id="email-sos-btn" class="responder-btn">
         <i class="fas fa-envelope"></i>
         <span>Email SOS</span>
       </button>
-      <a href="tel:112" class="responder-btn" style="text-decoration: none">
-        <i class="fas fa-fire-extinguisher"></i>
-        <span>Fire</span>
+      <a href="{% url 'base:emergency_numbers' %}" class="responder-btn" style="text-decoration: none">
+        <i class="fas fa-phone"></i>
+        <span>Emergency Numbers</span>
       </a>
     </div>
   </div>

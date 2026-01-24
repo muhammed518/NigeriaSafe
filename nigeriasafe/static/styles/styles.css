@@ -556,7 +556,7 @@
 .sign-in-btn {
   position: absolute;
   /* place left of the firstAid pill (which is at right:5%) */
-  right: calc(5% + 170px);
+  right: 5%;
   top: 50%;
   transform: translateY(-50%);
   background: #fff;
