@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('medical_training', models.BooleanField(default=False)),
                 ('location', models.CharField(blank=True, max_length=200, null=True)),
                 ('notes', models.TextField(blank=True, null=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('createdAt', models.DateTimeField(auto_now_add=True)),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='volunteer_profile', to=settings.AUTH_USER_MODEL)),
             ],
         ),

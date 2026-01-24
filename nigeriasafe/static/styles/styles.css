@@ -591,15 +591,23 @@
 /*first aid section*/
 .resources-container {
   text-align: left;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .resources-container h1 {
   text-align: center;
   margin-bottom: 0.5rem;
+  font-size: 2.8em;
+  font-weight: 700;
+  color: #0c1014;
+  letter-spacing: -0.5px;
 }
 .subtitle {
   text-align: center;
-  color: #aaa;
+  color: #777;
   margin-bottom: 2rem;
+  font-size: 1.1em;
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
 .guide-grid {
@@ -612,48 +620,70 @@
 /* Make each info card appear as its own boxed panel */
 .info-card {
   background: #ffffff;
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
-  padding: 0.25rem;
-  box-shadow: 0 8px 24px rgba(12, 16, 20, 0.06);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 0;
+  box-shadow: 0 2px 12px rgba(12, 16, 20, 0.1);
+  border: 1px solid #e8ecf1;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.info-card:hover {
+  box-shadow: 0 8px 28px rgba(12, 16, 20, 0.12);
+  transform: translateY(-2px);
 }
 
 p {
-  font-size: 20px;
-  color: black;
+  font-size: 1.05em;
+  color: #333;
+  line-height: 1.8;
+  letter-spacing: 0.2px;
 }
 
 .card-header {
-  padding: 16px 18px 8px 18px;
+  padding: 24px 24px 18px 24px;
+  background: linear-gradient(135deg, #f8f9fb 0%, #ffffff 100%);
+  border-bottom: 3px solid #ff4d4f;
 }
 .card-header h2 {
   margin: 0;
-  font-size: 30px;
-  color: #111;
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #0c1014;
+  letter-spacing: -0.3px;
 }
 .card-body {
-  padding: 8px 18px 18px 18px;
-  font-size: 20px;
-  color: #444;
+  padding: 24px;
+  font-size: 1.05em;
+  color: #555;
+  line-height: 1.8;
 }
 
 /* Apply Fire Safety about-section heading and paragraph styles to first-aid cards */
 .info-card .card-header h2 {
-  font-size: 28px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 10px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #ff4d4f;
-  display: inline-block;
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #0c1014;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+  display: block;
+  letter-spacing: -0.3px;
 }
 
 .info-card .card-body p {
-  font-size: 16px;
-  line-height: 1.7;
+  font-size: 1.05em;
+  line-height: 1.8;
   color: #555;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1.2rem 0;
+}
+
+.info-card .card-body p:first-child {
+  margin-top: 0;
+}
+
+.info-card .card-body p:last-child {
+  margin-bottom: 0;
 }
 
 /* Box any H2 followed immediately by a P inside resources to its own card */
@@ -669,27 +699,80 @@ p {
 }
 
 .resources-container .card-body p {
-  margin: 0;
+  margin: 0 0 1.2rem 0;
 }
 
-.card-body {
-  padding: 1.5rem;
-  line-height: 1.6;
+.resources-container .card-body p:last-child {
+  margin-bottom: 0;
 }
+
+.card-body ul,
 .card-body ol {
-  margin-left: 1.5rem;
+  margin-left: 1.8rem;
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.card-body li {
+  margin-bottom: 0.8rem;
+  line-height: 1.8;
+  color: #555;
+  font-size: 1.05em;
+}
+
+.card-body li:last-child {
+  margin-bottom: 0;
+}
+
+.card-body h2 {
+  font-size: 1.35em;
+  font-weight: 700;
+  color: #0c1014;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.2px;
+}
+
+.card-body h2:first-child {
+  margin-top: 0;
+}
+
+.non-emergency {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f8f9fb 0%, #ffffff 100%);
+  border-radius: 14px;
+  border: 1px solid #e8ecf1;
+}
+
+.non-emergency h2 {
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #0c1014;
+  margin-bottom: 1.5rem;
+  border-bottom: 3px solid #ff4d4f;
+  padding-bottom: 1rem;
+  display: inline-block;
+  letter-spacing: -0.3px;
 }
 
 .contact-list {
   list-style: none;
-  background: var(--card-bg);
-  padding: 1.5rem;
-  border-radius: 10px;
+  padding: 0;
+  margin: 0;
 }
 
 .contact-list li {
-  padding: 0.8rem 0;
-  border-bottom: 1px solid #444;
+  padding: 1rem 0;
+  border-bottom: 1px solid #e0e6ed;
+  font-size: 1.05em;
+  line-height: 1.7;
+  color: #555;
+}
+
+.contact-list li strong {
+  color: #0c1014;
+  font-weight: 700;
 }
 
 .contact-list li:last-child {
@@ -874,28 +957,32 @@ p {
   max-width: 900px;
   margin: 40px auto;
   padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .about-header {
   text-align: center;
   margin-bottom: 50px;
-  padding-bottom: 20px;
-  border-bottom: 1px solid #eee;
+  padding-bottom: 30px;
+
 }
 
 .about-header h1 {
-  font-size: 42px;
+  font-size: 2.8em;
   font-weight: 700;
-  color: #111;
-  margin-bottom: 10px;
+  color: #0c1014;
+  margin-bottom: 15px;
+  letter-spacing: -0.5px;
 }
 
 .about-subtitle {
-  font-size: 18px;
-  color: #666;
+  font-size: 1.15em;
+  color: #777;
   max-width: 600px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.8;
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
 .about-section {
@@ -903,19 +990,58 @@ p {
 }
 
 .about-section h2 {
-  font-size: 28px;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #ff4d4f;
-  display: inline-block;
+  font-size: 1.6em;
+  font-weight: 700;
+  color: #0c1014;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 3px solid #ff4d4f;
+  display: block;
+  letter-spacing: -0.3px;
+}
+
+.about-section h3 {
+  font-size: 1.35em;
+  font-weight: 700;
+  color: #0c1014;
+  margin-top: 1.8rem;
+  margin-bottom: 1rem;
+  letter-spacing: -0.2px;
 }
 
 .about-section p {
-  font-size: 16px;
-  line-height: 1.7;
+  font-size: 1.05em;
+  line-height: 1.8;
   color: #555;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.2px;
+}
+
+.about-section p:last-child {
+  margin-bottom: 0;
+}
+
+.about-section ol,
+.about-section ul {
+  margin-left: 1.8rem;
+  margin-top: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+.about-section li {
+  margin-bottom: 0.8rem;
+  line-height: 1.8;
+  color: #555;
+  font-size: 1.05em;
+}
+
+.about-section li:last-child {
+  margin-bottom: 0;
+}
+
+.about-section strong {
+  color: #0c1014;
+  font-weight: 700;
 }
 
 .values-grid {
@@ -1685,4 +1811,82 @@ p {
   color: #333;
   outline: none;
   width: 100%;
+}
+
+/* --- Emergency Numbers Page Styles --- */
+.emergency-category {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.emergency-category h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ff4d4f;
+  display: inline-block;
+}
+
+.emergency-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.emergency-list li {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #555;
+}
+
+.emergency-list li:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.emergency-list strong {
+  display: block;
+  font-size: 19px;
+  color: #222;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.emergency-number {
+  font-weight: 800;
+  color: #ff4d4f;
+  font-size: 1.15em;
+  background-color: rgba(255, 77, 79, 0.08);
+  padding: 2px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.emergency-steps {
+  background: #f9f9f9;
+  padding: 25px 25px 25px 45px;
+  border-radius: 12px;
+  border-left: 4px solid #ff4d4f;
+  margin-top: 20px;
+}
+
+.emergency-steps li {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #444;
+}
+
+.emergency-steps li strong {
+  color: #111;
+  font-weight: 700;
 }

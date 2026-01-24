@@ -128,6 +128,9 @@ def landslides_safety(request):
 def power_outage(request):
     return render(request, 'base/power-outage.html')
 
+def emergency_numbers(request):
+    return render(request, 'base/emergency-numbers.html')
+
 
 def extreme_heat(request):
     return render(request, 'base/extreme-heat.html')
@@ -234,7 +237,7 @@ def volunteer_tasks(request):
         return redirect('base:volunteer')
 
     # Fetch all active tasks, newest first
-    tasks = Task.objects.filter(is_active=True).order_by('-created_at')
+    tasks = Task.objects.filter(is_active=True).order_by('-createdAt')
     context = {'tasks': tasks}
     return render(request, 'base/volunteer_tasks.html', context)
 

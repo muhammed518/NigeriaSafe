@@ -15,6 +15,7 @@ urlpatterns = [
     path('resources/power-outage/', views.power_outage, name='power_outage'),
     path('resources/extreme-heat/', views.extreme_heat, name='extreme_heat'),
     path('resources/water-safety/', views.water_safety, name='water_safety'),
+    path('emergency-numbers/', views.emergency_numbers, name='emergency_numbers'),
     path('signin/', views.signin_view, name='signin'),
     path('registerform/', views.registerform_view, name='registerform'),
     path('logout/', views.signout_view, name='logout'),

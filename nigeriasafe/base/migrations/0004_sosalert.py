@@ -22,11 +22,11 @@ class Migration(migrations.Migration):
                 ('message', models.TextField(blank=True, null=True)),
                 ('phone', models.CharField(blank=True, max_length=30, null=True)),
                 ('status', models.CharField(choices=[('pending', 'Pending'), ('acknowledged', 'Acknowledged'), ('resolved', 'Resolved')], default='pending', max_length=20)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('createdAt', models.DateTimeField(auto_now_add=True)),
                 ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='sos_alerts', to=settings.AUTH_USER_MODEL)),
             ],
             options={
-                'ordering': ['-created_at'],
+                'ordering': ['-createdAt'],
             },
         ),
     ]

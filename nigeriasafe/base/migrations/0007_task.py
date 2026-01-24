@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
                 ('location', models.CharField(max_length=200)),
                 ('urgency', models.CharField(choices=[('low', 'Low'), ('medium', 'Medium'), ('high', 'High'), ('critical', 'Critical')], default='medium', max_length=20)),
                 ('description', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                ('createdAt', models.DateTimeField(auto_now_add=True)),
                 ('is_active', models.BooleanField(default=True)),
                 ('created_by', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],

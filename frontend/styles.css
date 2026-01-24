@@ -1330,3 +1330,81 @@ p {
     width: 54px;
   }
 }
+
+/* --- Emergency Numbers Page Styles --- */
+.emergency-category {
+  background: #fff;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.emergency-category h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ff4d4f;
+  display: inline-block;
+}
+
+.emergency-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+.emergency-list li {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #555;
+}
+
+.emergency-list li:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.emergency-list strong {
+  display: block;
+  font-size: 19px;
+  color: #222;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.emergency-number {
+  font-weight: 800;
+  color: #ff4d4f;
+  font-size: 1.15em;
+  background-color: rgba(255, 77, 79, 0.08);
+  padding: 2px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.emergency-steps {
+  background: #f9f9f9;
+  padding: 25px 25px 25px 45px;
+  border-radius: 12px;
+  border-left: 4px solid #ff4d4f;
+  margin-top: 20px;
+}
+
+.emergency-steps li {
+  margin-bottom: 12px;
+  font-size: 16px;
+  color: #444;
+}
+
+.emergency-steps li strong {
+  color: #111;
+  font-weight: 700;
+}

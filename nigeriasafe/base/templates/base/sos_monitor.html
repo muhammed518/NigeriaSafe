@@ -21,7 +21,7 @@
         <span class="alert-status {% if a.status == 'pending' %}status-critical{% endif %}">
           {{ a.get_status_display }}
         </span>
-        <small style="color: #999; font-weight: 600;">{{ a.created_at|timesince }} ago</small>
+        <small style="color: #999; font-weight: 600;">{{ a.createdAt|timesince }} ago</small>
       </div>
       
       <div class="alert-card-body">
@@ -32,6 +32,11 @@
         <div class="alert-location">
           <i class="fas fa-map-marker-alt"></i>
           <div style="flex: 1;">
+            {% if a.location_text %}
+            <div style="color: #333; text-decoration: none; font-weight: 500; font-size: 14px;">
+              📍 {{ a.location_text }}
+            </div>
+            {% endif %}
             <a href="https://www.google.com/maps/search/?api=1&query={{ a.latitude }},{{ a.longitude }}" target="_blank" style="color: #333; text-decoration: none; font-weight: 500; font-size: 14px;">
               View Location on Map
             </a>

@@ -80,11 +80,11 @@ class SOSAlert(models.Model):
     createdAt = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-created_at']
+        ordering = ['-createdAt']
 
     def __str__(self):
         user_display = self.patient.full_name if self.patient else 'Anonymous'
-        return f"SOS from {user_display} @ {self.created_at:%Y-%m-%d %H:%M}"
+        return f"SOS from {user_display} @ {self.createdAt:%Y-%m-%d %H:%M}"
     
 
 

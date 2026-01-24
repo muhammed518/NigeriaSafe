@@ -31,10 +31,10 @@ class CustomUserCreationForm(UserCreationForm):
 class PatientForm(forms.ModelForm):
     class Meta:
         model = Patient
-        exclude = ['user', 'created_at', 'updated_at', 'full_name']
+        exclude = ['user', 'createdAt', 'updatedAt', 'full_name']
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
-            'medical_conditions': forms.Textarea(attrs={'rows': 3}),
+            'medicalConditions': forms.Textarea(attrs={'rows': 3}),
             'allergies': forms.Textarea(attrs={'rows': 2}),
             'medications': forms.Textarea(attrs={'rows': 2}),
         }

@@ -119,5 +119,43 @@
         </div>
       </div>
     </div>
+
+    <!-- SOS manual location modal (when geolocation fails) -->
+    <div id="sos-location-modal" class="sos-modal" aria-hidden="true">
+      <div class="sos-modal-backdrop"></div>
+      <div
+        class="sos-modal-content"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sos-location-modal-title"
+      >
+        <h3 id="sos-location-modal-title">Send SOS - Manual Location</h3>
+        <p>We couldn't access your location. Please provide your current location or nearby landmarks.</p>
+
+        <label class="sos-field">
+          <span>Current Location or Landmarks *</span>
+          <textarea
+            id="sos-location-input"
+            rows="3"
+            placeholder="e.g., Intersection of Main St and 5th Ave, near the hospital, behind the blue building"
+            required
+          ></textarea>
+        </label>
+
+        <label class="sos-field">
+          <span>Additional Message (optional)</span>
+          <textarea
+            id="sos-location-message"
+            rows="3"
+            placeholder="Any additional details for responders"
+          ></textarea>
+        </label>
+
+        <div class="sos-modal-actions">
+          <button id="sos-location-cancel" class="btn">Cancel</button>
+          <button id="sos-location-send" class="btn btn-primary">Send SOS</button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
