@@ -1245,7 +1245,8 @@ p {
   }
 
   .sign-in-btn,
-  .firstAid-btn {
+  .firstAid-btn,
+  .admin-btn {
     position: static;
     transform: none;
     margin: 5px 0;
@@ -1285,6 +1286,11 @@ p {
   .contact-header h1 {
     font-size: 32px;
   }
+
+  .firetruck-section h2 {
+    font-size: 3rem !important;
+    padding: 0 20px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1303,6 +1309,10 @@ p {
 
   .responder-btn {
     width: 100%;
+  }
+
+  .firetruck-section h2 {
+    font-size: 2rem !important;
   }
 }
 
@@ -1392,6 +1402,28 @@ p {
   }
   .kit-actions input[type="email"] {
     width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 15px 5%;
+  }
+
+  .emergency-container {
+    gap: 20px;
+  }
+
+  .alerts-grid,
+  .task-list,
+  .sos-alerts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-form-container,
+  .contact-content-wrapper,
+  .kit-card {
+    padding: 20px;
   }
 }
 
