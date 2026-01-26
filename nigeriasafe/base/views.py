@@ -339,7 +339,11 @@ def update_task(request, task_id):
 
 @login_required(login_url='base:signin')
 def update_volunteer_task_status(request, task_id):
-    """Allow volunteers to update task status"""
+    """Allow admins to update task status"""
+    if not request.user.is_staff:
+        messages.error(request, "Permission denied. Only admins can update task status.")
+        return redirect(request.META.get('HTTP_REFERER', 'base:volunteer_tasks'))
+
     if request.method == 'POST':
         try:
             task = Task.objects.get(id=task_id)

@@ -1,5 +1,10 @@
-{% extends "base/base.html" %} {% load static %} {% block title %}Sign In—
-NigeriaSafe{% endblock %} {% block content %}
+{% extends "base/base.html" %} {% load static %} {% block title %}Medical ID —
+NigeriaSafe{% endblock %} 
+{% block head_extra %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+{% endblock %}
+{% block content %}
 
 <main class="signin-container">
   <div class="signin-card" style="max-width: 800px">
@@ -161,4 +166,14 @@ NigeriaSafe{% endblock %} {% block content %}
     </form>
   </div>
 </main>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    flatpickr("#id_date_of_birth", {
+      altInput: true,
+      altFormat: "F j, Y",
+      dateFormat: "Y-m-d",
+    });
+  });
+</script>
 {% endblock %}

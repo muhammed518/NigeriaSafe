@@ -34,7 +34,13 @@ class PatientForm(forms.ModelForm):
         exclude = ['user', 'created_at', 'updated_at', 'full_name']
         widgets = {
             'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
-            'medical_conditions': forms.Textarea(attrs={'rows': 3}),
-            'allergies': forms.Textarea(attrs={'rows': 2}),
-            'medications': forms.Textarea(attrs={'rows': 2}),
+            'weight': forms.NumberInput(attrs={'placeholder': 'in Kg'}),
+            'height': forms.NumberInput(attrs={'placeholder': 'in cm'}),
+            'medical_conditions': forms.TextInput(attrs={'placeholder': 'e.g., Asthma, Diabetes, Hypertension...'}),
+            'allergies': forms.TextInput(attrs={'placeholder': 'e.g., Penicillin, Peanuts, Bee stings...'}),
+            'medications': forms.TextInput(attrs={'placeholder': 'e.g., insulin, ventolin inhaler...'}),
+            'phone_number': forms.TextInput(attrs={'placeholder': 'e.g., +2348012345678'}),
+            'emergency_contact_name': forms.TextInput(attrs={'placeholder': "Emergency contact's name"}),
+            'emergency_contact_phone': forms.TextInput(attrs={'placeholder': "Emergency contact's phone"}),
+            'emergency_contact_relationship': forms.TextInput(attrs={'placeholder': 'e.g., Spouse, Parent, Sibling'}),
         }
