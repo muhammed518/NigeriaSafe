@@ -1,3 +1,4 @@
+from django.db import models
 from tastypie.resources import ModelResource
 from tastypie import fields
 from tastypie.authorization import Authorization

@@ -1,4 +1,4 @@
-(function () {
+/*(function () {
   let lastScroll = 0;
   const navbar = document.querySelector(".navbar");
   if (!navbar) return;
@@ -25,4 +25,4 @@
     },
     { passive: true }
   );
-})();
+})(); */

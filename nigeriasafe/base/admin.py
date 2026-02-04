@@ -1,9 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Patient
+from .models import Patient, SOSAlert, Task, Volunteer
 admin.site.register(Patient)
-from .models import SOSAlert, Task, Volunteer
+admin.site.register(Volunteer)
 
 
 @admin.register(SOSAlert)
@@ -17,5 +17,3 @@ class TaskAdmin(admin.ModelAdmin):
     list_display = ('title', 'urgency', 'location', 'created_by', 'isActive', 'created_at')
     list_filter = ('urgency', 'isActive', 'created_at')
     search_fields = ('title', 'description', 'location')
-
-admin.site.register(Volunteer)
